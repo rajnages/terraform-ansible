@@ -26,7 +26,7 @@
                 "sudo apt-get install -y nginx",
                 "curl https://get.docker.com | bash",
                 "sudo apt-get install -y curl unzip git",
-                "wget https://releases.hashicorp.com/terraform/1.10.3/terraform_1.10.3_linux_amd64.zip",
+                "wget https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip",
                 "unzip terraform_1.10.3_linux_amd64.zip",
                 "sudo mv terraform /usr/local/bin/"
             ]
