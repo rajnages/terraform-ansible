@@ -1,9 +1,11 @@
 data "aws_ami" "my_ami" {
   most_recent = true
-  name_regex  = "^Ansible"
+  filter {
+    name   = "tags:Name"
+    values = ["Ansible-Controller"]
+  }
   owners      = ["533267248538"]
 }
-
 
 resource "aws_instance" "webservers" {
   #count                       = local.new_environment == "production" ? 3 : 1
