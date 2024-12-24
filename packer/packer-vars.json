@@ -1,0 +1,9 @@
+{
+    "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_KEY`}}",
+    "region": "us-east-1",
+    "source_ami": "ami-0e2c8caa4b6378d8c",
+    "instance_type": "t2.micro",
+    "vpc_id": "vpc-06ca50fea784095d0",
+    "subnet_id": "subnet-0c22fe4986e732000"
+}
