@@ -28,5 +28,3 @@
   - name: Check AWS CLI exists Again
     shell: aws --version
     when: aws_version_output.rc != 0
-
-####
