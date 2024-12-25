@@ -1,0 +1,13 @@
+- name: First playbook install some necessary tools
+  hosts: pvt
+  become: true
+  become_user: root
+  tasks:
+    - name: install required packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - unzip
+        - curl
+        - wget
