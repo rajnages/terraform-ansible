@@ -1,0 +1,14 @@
+---
+- name: First playbook install some necessary tools
+  hosts: pvt
+  become: true
+  become_user: root
+  vars:
+    TF_VARS: 1.8.5
+  tasks:
+    - name: check the version of each server
+      shell: cat /etc/os-release
+    - name: perform update
+      shell: apt-get update
+    - name: install tools
+      shell: apt install -y unzip curl wget
