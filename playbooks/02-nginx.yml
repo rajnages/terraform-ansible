@@ -1,0 +1,81 @@
+---
+- name: Play For Installing Nginx On WebServers
+  hosts: pvt
+  gather_facts: true
+  become: true
+  become_user: root
+  vars:
+    AWS_ACCOUNT: "654654353604"
+  tasks:
+    # This is for debugging purpose
+    - name: Print Variable
+      debug:
+        msg: System {{ inventory_hostname }} has variable {{ AWS_ACCOUNT }}
+    # This is for debugging purpose but this no logs showing in console or terminal
+    - name: Print Variable Sesitive
+      debug:
+        msg: System {{ inventory_hostname }} has variable {{ AWS_ACCOUNT }}
+      no_log: True
+    # This is for installing necessary tools it depends on the OS version
+    - name: Perform apt update & Install basic packages
+      shell: apt update && apt install -y unzip jq net-tools stress
+      when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] == "24.04")
+      timeout: 30
+      tags:
+        - tools
+    # This is for installing Nginx Webserver based on OS version
+    - name: Install Nginx Webserver Application
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+      when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] == "24.04")
+      timeout: 30
+
+    # This is for starting Nginx Service based on os version
+    - name: Start Nginx Service
+      service:
+        name: nginx
+        state: started
+      when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] == "24.04")
+  tags:
+    - nginx
+
+# Second playbook for copying files to web servers
+---
+- name: Play For Copying File
+  hosts: testserver01:testserver02:testserver03
+  become: true
+  become_user: root
+  tasks:
+    # This is for copying files to web servers based on OS version
+    - name: Copy html file
+      copy:
+        src: /tmp/nginxfiles/index.html
+        dest: /var/www/html/index.nginx-debian.html
+        owner: root
+        group: root
+        mode: "0644"
+      when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] == "24.04")
+
+  # This is for copying files to web servers based on OS version
+    - name: Copy scorekeeper.js file
+      copy:
+        src: /tmp/nginxfiles/scorekeeper.js
+        dest: /var/www/html/scorekeeper.js
+        owner: root
+        group: root
+        mode: "0644"
+      when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] == "24.04")
+
+   # this is for copying files to web servers based on OS version
+    - name: Copy style.css file
+      copy:
+        src: /tmp/nginxfiles/style.css
+        dest: /var/www/html/style.css
+        owner: root
+        group: root
+        mode: "0644"
+      when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_version'] == "24.04")
+  tags:
+    - files
