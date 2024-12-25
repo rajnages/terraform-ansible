@@ -1,6 +1,4 @@
 {
-    "_comment1": "packer build -var \"aws_secret_key=foo\" template.json",
-    "_comment2": "packer build -var-file packer-vars.json template.json",
     "builders": [
         {
             "access_key": "{{user `aws_access_key`}}",
@@ -29,20 +27,6 @@
                 "wget https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip",
                 "unzip terraform_1.10.3_linux_amd64.zip",
                 "sudo mv terraform /usr/local/bin/"
-            ]
-        },
-        {
-            "type": "file",
-            "source": "docker.service",
-            "destination": "/tmp/docker.service"
-        },
-        {
-            "type": "shell",
-            "inline": [
-                "sudo cp /tmp/docker.service /lib/systemd/system/docker.service",
-                "sudo usermod -a -G docker ubuntu",
-                "sudo systemctl daemon-reload",
-                "sudo service docker restart"
             ]
         }
     ]
